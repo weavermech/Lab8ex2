@@ -22,8 +22,7 @@ template<class T> class IterC;
 
 /*--------------------------------------------------------------------------*/
 
-template<class T> 
-class NodeC
+template<class T> class NodeC
 {
 
   private:
@@ -53,8 +52,7 @@ class NodeC
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 
-template<class T> 
-class ListC
+template<class T> class ListC
 {
     NodeC<T>*        head;
 

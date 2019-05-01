@@ -11,8 +11,8 @@ using namespace std;
 
 int main()
 {
-	ListC<string>    list;
-	string           st;
+	ListC<string> list;
+	string st;
 
 	while (cin >> st)
 	{
@@ -22,7 +22,8 @@ int main()
 
 	IterC<string> it(list);
 	int j;
-	for (j=0, it.First(); it.IsElem(); it.Next(), j++) {
+	for (j=0, it.First(); it.IsElem(); it.Next(), j++)
+	{
 		cout << j << " : " << it.Data() << endl;
 	}
 

@@ -11,16 +11,14 @@ using namespace std;
 /*--------------------------------------------------------------------------*/
 // Null Constructor 
 
-template<class T>
-NodeC<T>::NodeC() 
+template<class T> NodeC<T>::NodeC()
 {
 }
 
 /*--------------------------------------------------------------------------*/
 // Copy constructor
 
-template<class T>
-NodeC<T>::NodeC(const NodeC<T> & s)
+template<class T> NodeC<T>::NodeC(const NodeC<T> & s)
 {
   data = s.data;
   next = s.next;
@@ -29,15 +27,25 @@ NodeC<T>::NodeC(const NodeC<T> & s)
 
 /*--------------------------------------------------------------------------*/
 // Assignment 
+template<class T> NodeC<T> &NodeC<T>::operator=(const NodeC<T> & s)
+{
+	if (this != &s) {
+		data = s.data;
+		next = s.next;
+		prev = s.prev;
+	}
+	return *this;
+}
 
-// =
 
 /*--------------------------------------------------------------------------*/
+
+
 // Destructor
 
-template<class T>
-NodeC<T>::~NodeC()
+template<class T> NodeC<T>::~NodeC()
 {
+
 }
 
 /*--------------------------------------------------------------------------*/
@@ -74,9 +82,7 @@ ListC<T>::ListC(const ListC<T> & s)
 /*--------------------------------------------------------------------------*/
 // Assignment 
 
-template<class T>
-ListC<T> & 
-ListC<T>::operator=(const ListC<T> & s)
+template<class T> ListC<T> &ListC<T>::operator=(const ListC<T> & s)
 {
   if (this != &s) {
     head = s.head;
@@ -87,33 +93,37 @@ ListC<T>::operator=(const ListC<T> & s)
 /*--------------------------------------------------------------------------*/
 
 // Destructor, use an iterator!
+template<class T> ListC<T>::~ListC()
+{
+  IterC<T> it(*this);
+
+  while ( it.IsElem() )
+  {
+    it.Delete();
+  }
+}
+/*--------------------------------------------------------------------------*/
+
 
 
 
 /*--------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------*/
 
-template<class T>    
-void
-ListC<T>::InsFirst(T & d)
+template<class T> void ListC<T>::InsFirst(T & d)
 {
   InsAfter(head, d);
 }
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>    
-void
-ListC<T>::InsLast(T & d)
+template<class T> void ListC<T>::InsLast(T & d)
 {
   InsAfter(head->prev, d);
 }
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>    
-int
-ListC<T>::FindPos(T & d)
+template<class T> int ListC<T>::FindPos(T & d)
 {
   IterC<T>     it(*this);
   int          pos=0;
@@ -129,9 +139,7 @@ ListC<T>::FindPos(T & d)
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-void
-ListC<T>::InsAfter(NodeC<T>* pnode, T & d)
+template<class T> void ListC<T>::InsAfter(NodeC<T>* pnode, T & d)
 {
   NodeC<T>* pn = new NodeC<T>;
   
@@ -145,7 +153,13 @@ ListC<T>::InsAfter(NodeC<T>* pnode, T & d)
 
 /*--------------------------------------------------------------------------*/
 
-// Delete
+// Delete (deletes a node)
+template<class T> void ListC<T>::Delete(NodeC<T> * pnode)
+{
+	pnode->prev->next = pnode->next; //set the prevous node's -next- pointer to the one after current
+	pnode->next->prev = pnode->prev; //set the next nodes -previous- pointer to the previous of current
+	delete pnode; //delete by calling the default destructor
+}
 
 
 /*--------------------------------------------------------------------------*/
@@ -158,8 +172,7 @@ ListC<T>::InsAfter(NodeC<T>* pnode, T & d)
 /*--------------------------------------------------------------------------*/
 // Constructor 
 
-template<class T>
-IterC<T>::IterC(ListC<T> & s) : list(s)
+template<class T>IterC<T>::IterC(ListC<T> & s) : list(s)
 {
   First();
 }
@@ -167,8 +180,7 @@ IterC<T>::IterC(ListC<T> & s) : list(s)
 /*--------------------------------------------------------------------------*/
 // Copy constructor
 
-template<class T>
-IterC<T>::IterC(const IterC<T> & s) : list(s.list)
+template<class T>IterC<T>::IterC(const IterC<T> & s) : list(s.list)
 {
   pnode = s.pnode;
 }
@@ -176,9 +188,7 @@ IterC<T>::IterC(const IterC<T> & s) : list(s.list)
 /*--------------------------------------------------------------------------*/
 // Assignment 
 
-template<class T>
-IterC<T> & 
-IterC<T>::operator=(const IterC<T> & s)
+template<class T>IterC<T> &IterC<T>::operator=(const IterC<T> & s)
 {
   if (this != &s) {
     list  = s.list;
@@ -190,8 +200,7 @@ IterC<T>::operator=(const IterC<T> & s)
 /*--------------------------------------------------------------------------*/
 // Destructor
 
-template<class T>
-IterC<T>::~IterC()
+template<class T>IterC<T>::~IterC()
 {  
 }
 
@@ -200,12 +209,17 @@ IterC<T>::~IterC()
 /*--------------------------------------------------------------------------*/
 
 //Data()
+template<class T> T& IterC<T>::Data()
+{
+	IterC<T>     it(*this);
+
+	return &d;
+}
+
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-IterC<T> &
-IterC<T>::Delete(void)
+template<class T>IterC<T> &IterC<T>::Delete(void)
 {
   this->Next();
   list.Delete(this->pnode->prev);
@@ -220,9 +234,7 @@ IterC<T>::Delete(void)
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-IterC<T> &
-IterC<T>::First()
+template<class T>IterC<T> &IterC<T>::First()
 {
   this->pnode = list.head;
   
@@ -231,9 +243,7 @@ IterC<T>::First()
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-IterC<T> &
-IterC<T>::Nth(int n)
+template<class T>IterC<T> &IterC<T>::Nth(int n)
 {
   int i=0;
   
@@ -250,9 +260,7 @@ IterC<T>::Nth(int n)
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-IterC<T> &
-IterC<T>::Last()
+template<class T>IterC<T> &IterC<T>::Last()
 {
   this->pnode = list.head;
   
@@ -261,9 +269,7 @@ IterC<T>::Last()
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-IterC<T> &
-IterC<T>::Next()
+template<class T>IterC<T> &IterC<T>::Next()
 {
   this->pnode = this->pnode->next;
   
@@ -272,9 +278,7 @@ IterC<T>::Next()
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-IterC<T> &
-IterC<T>::Prev()
+template<class T>IterC<T> &IterC<T>::Prev()
 {
   this->pnode = this->pnode->prev;
   
@@ -283,11 +287,9 @@ IterC<T>::Prev()
 
 /*--------------------------------------------------------------------------*/
 
-template<class T>
-int 
-IterC<T>::IsElem(void)
+template<class T>int IterC<T>::IsElem(void)
 {
-  return (pnode != list.head);
+  return (pnode != list.head); //true while current node is not head
 }
 
 /*--------------------------------------------------------------------------*/
