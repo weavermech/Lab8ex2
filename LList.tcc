@@ -211,9 +211,8 @@ template<class T>IterC<T>::~IterC()
 //Data()
 template<class T> T& IterC<T>::Data()
 {
-	IterC<T>     it(*this);
-
-	return &d;
+	T&dr= this->pnode->data;
+	return dr;
 }
 
 
@@ -223,21 +222,25 @@ template<class T>IterC<T> &IterC<T>::Delete(void)
 {
   this->Next();
   list.Delete(this->pnode->prev);
-  
+
   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
 
 //InsAfter  use list.InsAfter
-
+template<class T> IterC<T> &IterC<T>::InsAfter(T &d)
+{
+  InsAfter(this, d);
+  return this->Next();
+}
 
 /*--------------------------------------------------------------------------*/
 
 template<class T>IterC<T> &IterC<T>::First()
 {
   this->pnode = list.head;
-  
+
   return this->Next();
 }
 
