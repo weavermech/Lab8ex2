@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 
 add_executable(ex2
-        ex1.cpp
+        ex2.cpp
         LList.h
         LList.tcc
         StringC.cpp

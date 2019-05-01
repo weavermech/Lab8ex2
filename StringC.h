@@ -33,7 +33,7 @@ class StringC
     // Constructor from pointer to char, makes a copy
  
     StringC(const int i);
-    // Constructor from speciffied size, initialized to termination characters
+    // Constructor from specified size, initialized to termination characters
  
     StringC(const StringC & s);
     // Copy constructor

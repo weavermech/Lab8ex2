@@ -8,7 +8,7 @@
 // which is not accessible to the user. (private constructor)
 //
 // The ListC has a head element, used to detect empty lists/invalid elements.
-// It has only minimal access, and access is mainly achieved thru
+// It has only minimal access, and access is mainly achieved through
 // a separate iterator class.
 //
 // Caution: The iterator can be become stale if the element it 
